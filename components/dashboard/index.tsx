@@ -49,12 +49,6 @@ export default function Dashboard() {
                 Manager Portal
               </Link>
             )}
-            <button
-              onClick={logout}
-              className="bg-white text-blue-600 px-3 py-1 sm:px-4 sm:py-2 rounded hover:bg-gray-100 text-sm sm:text-base"
-            >
-              Logout
-            </button>
           </div>
         </div>
       </nav>

@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import BackgroundAnimation from "@/components/Hero/background-animation";
-import MainHeader from "@/components/Hero/header";
 import Header from "@/components/Hero/header";
 
 const geistSans = Geist({
@@ -30,9 +28,6 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {/* <MainHeader /> */}
-
-        {/* <BackgroundAnimation /> */}
         <Header />
         {children}
       </body>

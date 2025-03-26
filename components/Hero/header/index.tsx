@@ -9,29 +9,28 @@ export default function Header() {
   const [user, setUser] = useState<User | null>(null);
   const router = useRouter();
 
-  // Check authentication status on mount
+  // Load user from localStorage on mount
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    }
+    setUser(storedUser ? JSON.parse(storedUser) : null);
   }, []);
 
-  const handleLogout = async () => {
+  const logout = async () => {
     try {
       await fetch("/api/logout", { method: "POST" });
-      localStorage.clear();
-      setUser(null);
-      router.push("/login");
+      localStorage.removeItem("user");
+      setUser(null); // Immediately update state
+      router.push("/login"); // Navigate after state update
     } catch (error) {
       console.error("Logout error:", error);
     }
   };
 
+  const isAuthenticated = !!user;
+
   return (
     <nav className="bg-blue-600 text-white p-4">
       <div className="container mx-auto flex justify-between items-center">
-        {/* Left Side: Brand and Links */}
         <div className="flex items-center space-x-6">
           <Link href="/" className="text-xl font-bold hover:text-gray-200">
             MyApp
@@ -51,15 +50,14 @@ export default function Header() {
           )}
         </div>
 
-        {/* Right Side: User Info and Login/Logout */}
         <div className="flex items-center space-x-4">
-          {user ? (
+          {isAuthenticated ? (
             <>
               <span className="hidden sm:inline">
                 Welcome, {user.fullName} ({user.role})
               </span>
               <button
-                onClick={handleLogout}
+                onClick={logout}
                 className="bg-white text-blue-600 px-3 py-1 rounded hover:bg-gray-100"
               >
                 Logout
