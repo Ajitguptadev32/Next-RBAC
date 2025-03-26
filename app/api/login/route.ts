@@ -49,7 +49,7 @@ export async function POST(req: Request) {
     const responseData: AuthResponse = {
       message: "Login successful",
       user: {
-        id: user._id.toString(),
+        _id: user._id.toString(),
         fullName: user.fullName,
         email: user.email,
         role: user.role

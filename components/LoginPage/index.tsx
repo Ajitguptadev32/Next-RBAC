@@ -40,7 +40,8 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="relative flex items-center justify-center pt-40">
+    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      {" "}
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
         <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
         {error && <p className="text-red-500 text-center mb-4">{error}</p>}
