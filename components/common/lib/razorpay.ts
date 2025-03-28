@@ -38,6 +38,7 @@ export interface RazorpayResponse {
 // Define Razorpay constructor type
 export interface RazorpayConstructor {
   new (options: RazorpayOptions): {
+    on(arg0: string, arg1: (response: any) => void): unknown;
     open: () => void;
   };
 }
