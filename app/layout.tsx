@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Hero/header";
+import { KitchenDesignHero } from "@/components/Hero/MainHeader";
+import BackgroundAnimation from "@/components/Hero/background-animation";
+import MainHeader from "@/components/Hero/header/mainHeader";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,7 +31,9 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Header />
+        <MainHeader/>
+                <BackgroundAnimation/>
+
         {children}
       </body>
     </html>
