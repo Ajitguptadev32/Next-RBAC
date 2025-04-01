@@ -1,11 +1,9 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Icon } from "@iconify/react";
 import { useMediaQuery } from "../Hooks/use-media-query";
 
-// Tech icons to display
 const techIcons = [
   { icon: "logos:react", size: 40 },
   { icon: "logos:typescript-icon", size: 35 },
@@ -42,7 +40,7 @@ export default function BackgroundAnimation() {
   const isMobile = useMediaQuery("(max-width: 768px)");
 
   useEffect(() => {
-    // Generate random positions for icons
+    // Only run on client
     const iconCount = isMobile ? 10 : 18;
     const newIcons = Array.from({ length: iconCount }, (_, i) => {
       const randomIcon =
@@ -59,53 +57,52 @@ export default function BackgroundAnimation() {
     });
 
     setIcons(newIcons);
-  }, [isMobile]);
+  }, [isMobile]); // Runs only on mount
 
   return (
-    <div className="fixed inset-0 w-full h-full bg-gradient-to-br from-gray-900 via-purple-900 to-blue-900 overflow-hidden">
-      {/* Animated grid lines */}
+    <div className="fixed inset-0 w-full h-full bg-gradient-to-br from-gray-900 via-purple-900 to-blue-900 overflow-hidden -z-10">
       <div className="absolute inset-0 opacity-20">
         <GridLines />
       </div>
 
       {/* Floating tech icons */}
-      {icons.map((icon) => (
-        <motion.div
-          key={icon.id}
-          className="absolute"
-          initial={{
-            x: `${icon.x}vw`,
-            y: `${icon.y}vh`,
-            opacity: 0
-          }}
-          animate={{
-            x: [
-              `${icon.x}vw`,
-              `${(icon.x + 10) % 100}vw`,
-              `${(icon.x - 5) % 100}vw`,
-              `${icon.x}vw`
-            ],
-            y: [
-              `${icon.y}vh`,
-              `${(icon.y - 15) % 100}vh`,
-              `${(icon.y + 10) % 100}vh`,
-              `${icon.y}vh`
-            ],
-            opacity: [0, 0.7, 0.5, 0]
-          }}
-          transition={{
-            duration: icon.duration,
-            times: [0, 0.3, 0.7, 1],
-            repeat: Number.POSITIVE_INFINITY,
-            delay: icon.delay,
-            ease: "easeInOut"
-          }}
-        >
-          <Icon icon={icon.icon} width={icon.size} height={icon.size} />
-        </motion.div>
-      ))}
+      {icons.length > 0 &&
+        icons.map((icon) => (
+          <motion.div
+            key={icon.id}
+            className="absolute"
+            initial={{
+              x: `${icon.x}vw`,
+              y: `${icon.y}vh`,
+              opacity: 0
+            }}
+            animate={{
+              x: [
+                `${icon.x}vw`,
+                `${(icon.x + 10) % 100}vw`,
+                `${(icon.x - 5) % 100}vw`,
+                `${icon.x}vw`
+              ],
+              y: [
+                `${icon.y}vh`,
+                `${(icon.y - 15) % 100}vh`,
+                `${(icon.y + 10) % 100}vh`,
+                `${icon.y}vh`
+              ],
+              opacity: [0, 0.7, 0.5, 0]
+            }}
+            transition={{
+              duration: icon.duration,
+              times: [0, 0.3, 0.7, 1],
+              repeat: Number.POSITIVE_INFINITY,
+              delay: icon.delay,
+              ease: "easeInOut"
+            }}
+          >
+            <Icon icon={icon.icon} width={icon.size} height={icon.size} />
+          </motion.div>
+        ))}
 
-      {/* Overlay gradient for better text readability */}
       <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
     </div>
   );
@@ -157,30 +154,6 @@ function GridLines() {
           }}
         />
       ))}
-
-      {/* Pulsing circles */}
-      {Array.from({ length: 8 }).map((_, i) => {
-        const x = Math.random() * 100;
-        const y = Math.random() * 100;
-        return (
-          <motion.div
-            key={`circle-${i}`}
-            className="absolute rounded-full bg-white/10"
-            style={{ left: `${x}%`, top: `${y}%` }}
-            initial={{ scale: 0, opacity: 0 }}
-            animate={{
-              scale: [0, 2, 3, 0],
-              opacity: [0, 0.3, 0.1, 0]
-            }}
-            transition={{
-              duration: 10 + Math.random() * 10,
-              repeat: Number.POSITIVE_INFINITY,
-              delay: Math.random() * 5,
-              ease: "easeInOut"
-            }}
-          />
-        );
-      })}
     </div>
   );
 }
