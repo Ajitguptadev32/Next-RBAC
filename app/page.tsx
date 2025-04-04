@@ -4,10 +4,5 @@ import { KitchenDesignHero } from "@/components/Hero/MainHeader";
 import LoginPage from "@/components/LoginPage";
 
 export default function Home() {
-  return (
-    <>
-                    <KitchenDesignHero/>
-
-    </>
-  );
+  return <>{/* <KitchenDesignHero/> */}</>;
 }

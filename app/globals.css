@@ -18,4 +18,25 @@
     --foreground: #ededed;
   }
 }
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
+.payment-result {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+.success-icon {
+  animation: fadeIn 0.5s ease-out 0.2s both;
+}
+
+.error-icon {
+  animation: fadeIn 0.5s ease-out 0.2s both;
+}
