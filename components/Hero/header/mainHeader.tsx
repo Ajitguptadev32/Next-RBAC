@@ -4,27 +4,17 @@ import Link from "next/link";
 import Image from "next/image";
 
 const MainHeader: React.FC = () => {
-  const [isOpen, setIsOpen] = useState(false); 
+  const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
-  // Handle scroll to add background on scroll
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 50) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
+      setIsScrolled(window.scrollY > 50);
     };
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  // Toggle mobile menu
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
-  };
 
   return (
     <header
@@ -37,13 +27,12 @@ const MainHeader: React.FC = () => {
         <Link href="/">
           <div className="flex items-center">
             <Image
-              src="/logo.png" // Replace with your logo path
+              src="/logo.png"
               alt="Interior Design Logo"
               width={50}
               height={50}
-              className="mr-2"
             />
-            <span className="text-2xl font-bold text-white">
+            <span className="text-2xl font-bold text-white ml-2">
               Interior Elegance
             </span>
           </div>
@@ -51,45 +40,25 @@ const MainHeader: React.FC = () => {
 
         {/* Desktop Menu */}
         <nav className="hidden md:flex space-x-8">
-          <Link href="/">
-            <span className="text-white hover:text-primary transition-colors duration-300">
-              Home
-            </span>
-          </Link>
-          <Link href="/services">
-            <span className="text-white hover:text-primary transition-colors duration-300">
-              Services
-            </span>
-          </Link>
-          <Link href="/portfolio">
-            <span className="text-white hover:text-primary transition-colors duration-300">
-              Portfolio
-            </span>
-          </Link>
-          <Link href="/about">
-            <span className="text-white hover:text-primary transition-colors duration-300">
-              About
-            </span>
-          </Link>
-          <Link href="/contact">
-            <span className="text-white hover:text-primary transition-colors duration-300">
-              Contact
-            </span>
-          </Link>
+          {["Home", "Services", "Portfolio", "About", "Contact"].map((item) => (
+            <Link key={item} href={`/${item.toLowerCase()}`}>
+              <span className="text-white hover:text-primary transition duration-300">
+                {item}
+              </span>
+            </Link>
+          ))}
         </nav>
 
         {/* Mobile Menu Button */}
         <button
           className="md:hidden text-white focus:outline-none"
-          onClick={toggleMenu}
-          aria-label="Toggle menu"
+          onClick={() => setIsOpen(!isOpen)}
         >
           <svg
             className="w-8 h-8"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
           >
             <path
               strokeLinecap="round"
@@ -102,54 +71,20 @@ const MainHeader: React.FC = () => {
       </div>
 
       {/* Mobile Menu */}
-      <div
-        className={`md:hidden ${
-          isOpen ? "block" : "hidden"
-        } bg-secondary/90 backdrop-blur-md`}
-      >
-        <nav className="flex flex-col items-center py-4">
-          <Link href="/">
-            <span
-              className="text-white hover:text-primary py-2 transition-colors duration-300"
-              onClick={toggleMenu}
-            >
-              Home
-            </span>
-          </Link>
-          <Link href="/services">
-            <span
-              className="text-white hover:text-primary py-2 transition-colors duration-300"
-              onClick={toggleMenu}
-            >
-              Services
-            </span>
-          </Link>
-          <Link href="/portfolio">
-            <span
-              className="text-white hover:text-primary py-2 transition-colors duration-300"
-              onClick={toggleMenu}
-            >
-              Portfolio
-            </span>
-          </Link>
-          <Link href="/about">
-            <span
-              className="text-white hover:text-primary py-2 transition-colors duration-300"
-              onClick={toggleMenu}
-            >
-              About
-            </span>
-          </Link>
-          <Link href="/contact">
-            <span
-              className="text-white hover:text-primary py-2 transition-colors duration-300"
-              onClick={toggleMenu}
-            >
-              Contact
-            </span>
-          </Link>
-        </nav>
-      </div>
+      {isOpen && (
+        <div className="fixed top-0 left-0 w-full h-screen bg-secondary/90 backdrop-blur-md flex flex-col items-center py-4">
+          {["Home", "Services", "Portfolio", "About", "Contact"].map((item) => (
+            <Link key={item} href={`/${item.toLowerCase()}`}>
+              <span
+                className="text-white hover:text-primary py-2 transition duration-300"
+                onClick={() => setIsOpen(false)}
+              >
+                {item}
+              </span>
+            </Link>
+          ))}
+        </div>
+      )}
     </header>
   );
 };
