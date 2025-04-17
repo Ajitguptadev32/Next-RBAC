@@ -1,15 +1,14 @@
 "use client";
-import { useEffect } from "react";
+import { useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 
-export default function PaymentFailed() {
+function PaymentFailedContent() {
   const searchParams = useSearchParams();
   const orderId = searchParams.get("orderId");
   const error = searchParams.get("error");
 
   useEffect(() => {
-    // You can send analytics here
     console.log("Payment failed for order:", orderId, "Error:", error);
   }, [orderId, error]);
 
@@ -51,5 +50,13 @@ export default function PaymentFailed() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function PaymentFailed() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <PaymentFailedContent />
+    </Suspense>
   );
 }

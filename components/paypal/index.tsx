@@ -31,7 +31,7 @@ const Paypal = () => {
         <PayPalButtons
           createOrder={async () => {
             const res = await axios.post(
-              "http://localhost:3001/paypal/create",
+              "http://localhost:4552/paypal/create",
               {
                 amount
               }
@@ -40,7 +40,7 @@ const Paypal = () => {
           }}
           onApprove={async (data) => {
             const res = await axios.post(
-              "http://localhost:3001/paypal/capture",
+              "http://localhost:4552/paypal/capture",
               {
                 orderId: data.orderID
               }
@@ -58,10 +58,10 @@ const Paypal = () => {
             console.warn("Payment cancelled:", data);
             window.location.href = `/paypal/failed?orderId=${data.orderID}&error=payment_cancelled`;
           }}
-          onError={(err) => {
-            console.error("Payment error:", err);
-            window.location.href = `/paypal/failed?error=payment_error`;
-          }}
+          // onError={(err) => {
+          //   console.error("Payment error:", err);
+          //   window.location.href = `/paypal/failed?error=payment_error`;
+          // }}
         />
       </PayPalScriptProvider>
     </div>
