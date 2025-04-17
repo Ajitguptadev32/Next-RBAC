@@ -1,14 +1,13 @@
 "use client";
-import { useEffect } from "react";
+import { useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 
-export default function PaymentSuccess() {
+function PaymentSuccessContent() {
   const searchParams = useSearchParams();
   const orderId = searchParams.get("orderId");
 
   useEffect(() => {
-    // You can send analytics here
     console.log("Payment successful for order:", orderId);
   }, [orderId]);
 
@@ -18,8 +17,8 @@ export default function PaymentSuccess() {
         <div className="text-green-500 text-6xl mb-4">✓</div>
         <h1 className="text-2xl font-bold mb-2">Payment Successful!</h1>
         <p className="text-gray-600 mb-6">
-          Thank you for your purchase. Your order #{orderId} has been processed
-          successfully.
+          Thank you for your purchase.{" "}
+          {orderId && `Your order #${orderId} has been processed successfully.`}
         </p>
         <div className="space-y-3">
           <Link
@@ -37,5 +36,13 @@ export default function PaymentSuccess() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function PaymentSuccess() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <PaymentSuccessContent />
+    </Suspense>
   );
 }
